@@ -16,15 +16,15 @@ def home():
     return "Бот работает"
 
 def run_server():
-    port = int(os.environ.get("PORT", 10000))  # ← Render использует порты от 10000
-    app.run(host='0.0.0.0', port=port)  # ← Важно: host='0.0.0.0'
+    global port  # ← Добавьте эту строку
+    port = int(os.environ.get("PORT", 10000))  # ← Используйте глобальную переменную
+    app.run(host='0.0.0.0', port=port)
 
-# --- Запуск сервера и бота ---
 def start_flask():
     server_thread = Thread(target=run_server)
     server_thread.daemon = True
     server_thread.start()
-    print(f"✅ Сервер запущен на порту {port}")
+    print(f"✅ Сервер запущен на порту {port}")  # ← Теперь port доступен
 
 @bot.message_handler(commands=['start'])
 def send_checklist(message):
@@ -45,6 +45,5 @@ if __name__ == "__main__":
     bot_thread.daemon = True
     bot_thread.start()
 
-    # Держим основной поток активным
     while True:
         time.sleep(1)
