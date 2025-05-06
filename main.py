@@ -5,7 +5,7 @@ import os
 import time
 
 # 🔁 Вставь свой токен
-bot = telebot.TeleBot("7936011157:AAEC4kK9dsj1aQYS8chgNCVXpOjAuTW8mhk")
+bot = telebot.TeleBot("7989628168:AAFv7BbC-NodtqEDIbu6xZzKm4p-NzckcS0")
 CHANNEL_ID = "@remeslodesign"
 
 # --- Flask-сервер ---
