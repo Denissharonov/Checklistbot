@@ -3,9 +3,17 @@ from flask import Flask
 from threading import Thread
 import os
 import time
+from dotenv import load_dotenv  # ← Импортируем dotenv
 
-# 🔁 Вставь свой токен
-bot = telebot.TeleBot("7232745478:AAEh3k6pV5gy9siygnPYPrcAzGI_PEQgAeQ")
+# Загружаем переменные окружения из .env
+load_dotenv()
+
+# Получаем токен из переменных окружения
+bot_token = os.getenv("BOT_TOKEN")
+if not bot_token:
+    raise ValueError("❌ Не найден BOT_TOKEN в переменных окружения или .env файле!")
+
+bot = telebot.TeleBot(bot_token)
 CHANNEL_ID = "@remeslodesign"
 
 # --- Flask-сервер ---
@@ -16,15 +24,15 @@ def home():
     return "Бот работает"
 
 def run_server():
-    global port  # ← Добавьте эту строку
-    port = int(os.environ.get("PORT", 10000))  # ← Используйте глобальную переменную
+    global port
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
 def start_flask():
     server_thread = Thread(target=run_server)
     server_thread.daemon = True
     server_thread.start()
-    print(f"✅ Сервер запущен на порту {port}")  # ← Теперь port доступен
+    print(f"✅ Сервер запущен на порту {port}")
 
 @bot.message_handler(commands=['start'])
 def send_checklist(message):
